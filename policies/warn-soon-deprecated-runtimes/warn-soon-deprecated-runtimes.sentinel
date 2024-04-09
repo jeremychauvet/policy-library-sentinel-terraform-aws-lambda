@@ -1,0 +1,20 @@
+import "tfplan/v2" as tfplan
+
+deprecated_runtimes = ["nodejs16.x", "python3.8", "dotnet6"]
+
+lambdas = filter tfplan.resource_changes as _, resource {
+	resource.mode == "managed" and
+		resource.type == "aws_lambda_function" and
+		(resource.change.actions contains "create" or resource.change.actions == ["update"])
+}
+
+lambda_using_deprecated_runtime = rule {
+	all lambdas as _, lambda {
+	    deprecated_runtimes contains lambda.change.after.runtime
+	}
+}
+
+// Lambda runtime is deprecated. AWS will soon prevent deployment.
+main = rule {
+	lambda_using_deprecated_runtime
+}

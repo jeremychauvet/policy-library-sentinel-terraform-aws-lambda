@@ -1,0 +1,27 @@
+import "tfplan/v2" as tfplan
+
+lambdas = filter tfplan.resource_changes as _, resource {
+	resource.mode == "managed" and
+		resource.type == "aws_lambda_function" and
+		(resource.change.actions contains "create" or resource.change.actions == ["update"])
+}
+
+func is_lambda_using_recommanded_architecture_arm64(lambda) {
+	if "architectures" in keys(lambda.change.after) {
+		case lambda.change.after.architectures {
+			when ["arm64"]:
+				return true
+			else:
+				return false
+		}
+	} else {
+		return false // By default, architecture is "x86_64".
+	}
+}
+
+// Lambda architecture is x86_64. Switch to arm64 for cost savings and performances improvements.
+main = rule {
+	all lambdas as _, lambda {
+		is_lambda_using_recommanded_architecture_arm64(lambda)
+	}
+}
