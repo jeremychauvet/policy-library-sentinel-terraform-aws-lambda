@@ -1,12 +1,11 @@
 # Sentinel policies for AWS Backup
 
-This repository provide Sentinel policies for AWS Backup to be used on Terraform Cloud or Terraform Enterprise.
+This repository provide Sentinel policies for AWS Lambda to be used on Terraform Cloud or Terraform Enterprise.
 
 ## Policies
 
-| Scope        | Rule                              | Description                                                                                    | Category | Enforcement level | Links                                                    |
-|--------------|-----------------------------------|------------------------------------------------------------------------------------------------|----------|-------------------|----------------------------------------------------------|
-| Backup rules | deny-snapshot-infinite-retention  | Prevent creation or modification of a Backup Plan rule with an infinite retention of snapshots | FinOps   | hard-mandatory    | [doc](docs/policies/deny-snapshot-infinite-retention.md) | 
+| Rule                          | Description                                    | Category    | Enforcement level | Links                                                 |
+|-------------------------------|------------------------------------------------|-------------|-------------------|-------------------------------------------------------|
+| arm64-architecture            | Warn if Lambda not using arm64 architecture    | FinOps      | advisory          | [doc](docs/policies/arm64-architecture.md)            |
+| warn-soon-deprecated-runtimes | Warn if Lambda using a runtime soon deprecated | Reliability | advisory          | [doc](docs/policies/warn-soon-deprecated-runtimes.md) |
 
-
-https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
