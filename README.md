@@ -1,4 +1,4 @@
-# Sentinel policies for AWS Backup
+# Sentinel policies for AWS Lambda
 
 This repository provide Sentinel policies for AWS Lambda to be used on Terraform Cloud or Terraform Enterprise.
 
